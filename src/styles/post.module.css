@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+}
+
+.image {
+  transition: 0.5s ease;
+  opacity: 1;
+  z-index: 1;
+  height: 100%;
+}
+
+.background {
+  transition: 1s ease;
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  top: 0;
+  right: 0;
+  background-repeat: no-repeat;
+  background: linear-gradient(
+    135deg,
+    rgb(106, 106, 106) 0%,
+    rgb(80, 80, 80) 50%,
+    #393939 50%,
+    #7e7e7e
+  );
+  background-size: 400% 400%;
+  opacity: 0;
+}
+
+/* .container:hover .image {
+  transform: scale(1.01);
+} */
+.container:hover .background {
+  background-position: 100% 100%;
+  opacity: 0.4;
+}
