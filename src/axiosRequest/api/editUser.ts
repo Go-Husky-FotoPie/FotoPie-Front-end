@@ -1,16 +1,14 @@
-import { createAxiosByinterceptors } from "../index";
-
-const request = createAxiosByinterceptors();
+import axiosInstance from "../index";
 
 export const getMe = () => {
-  return request({
+  return axiosInstance({
     url: "/api/editUser/me",
     method: "get",
   });
 };
 
 export const updateName = <T>(data: T) => {
-  return request({
+  return axiosInstance({
     url: `/api/editUser/updateName`,
     method: "patch",
     data,
@@ -18,7 +16,7 @@ export const updateName = <T>(data: T) => {
 };
 
 export const upload = <T>(data: T) => {
-  return request({
+  return axiosInstance({
     url: `/api/editUser/upload`,
     method: "patch",
     data,

@@ -33,7 +33,7 @@ import axiosRequest from "../src/utils/axiosRequest";
 import NavBar from "../src/components/NavBar";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { getMe } from "../src/axiosRequest/api/editUser"
+import { getMe } from "../src/axiosRequest/api/editUser";
 import { updateName } from "../src/axiosRequest/api/editUser";
 import { upload } from "../src/axiosRequest/api/editUser";
 
@@ -101,7 +101,7 @@ export default function EditUserProfile() {
       });
     };
   };
-  
+
   return (
     <>
       <NavBar isFixed={false} color="#000000" />

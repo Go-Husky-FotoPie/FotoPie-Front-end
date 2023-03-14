@@ -1,24 +1,16 @@
-import { createAxiosByinterceptors } from "../index";
-
-const request = createAxiosByinterceptors();
+import axiosInstance from "../index";
 
 export const login = <T>(data: T) => {
-  return request({
+  return axiosInstance({
     url: "/api/auth/login",
     method: "post",
     data,
-
   });
 };
 
 export const getUserInfo = <T>(params: T) => {
-  return request({
+  return axiosInstance({
     url: `/api/user/${params}`,
     method: "get",
   });
 };
-
-
-
-
-

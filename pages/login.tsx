@@ -15,7 +15,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Schema, string, object } from "yup";
 import FormTextField from "../src/components/textField/formTextField";
 import { useRouter } from "next/router";
-import axiosRequest from "../src/utils/axiosRequest";
+import { login } from "../src/axiosRequest/api/user";
+import { setAccessToken } from "../src/utils/token";
+import Alert from "@mui/material/Alert";
 
 // Define a type with the shape of the form values
 interface IFormInput {
@@ -31,41 +33,32 @@ const formSchema: Schema<IFormInput> = object({
 
 // Define a component that renders the form
 export default function SignIn() {
-  const [loginError, setLoginError] = useState(null);
-
   const router = useRouter();
+
+  const [loginError, setLoginError] = useState("");
 
   // Use the useForm hook to create a form controller
   const methods = useForm<IFormInput>({
     resolver: yupResolver(formSchema),
   });
-
   // Define a submit handler for the form
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     try {
-      const response = await axiosRequest("/api/auth/login", "POST", data);
-      console.log(response);
-      if (response.status === 200) {
-        window.localStorage.setItem("accessToken", response.data.access_token);
-        window.localStorage.setItem(
-          "refreshToken",
-          response.data.refresh_token
-        );
+      const res = await login(data);
+      setAccessToken(res.data.access_token);
+      router.push("/");
+    } catch (err: any) {
 
-        // redirect to home page
-        router.push("/");
+      if (err.response.status === 403) {
+        setLoginError("Invalid email or password");
       }
-
-      // TODO: handle error and set error type
-    } catch (error: any) {
-      setLoginError(error.message);
     }
   };
 
   return (
     <Container component="main" maxWidth="xs">
       {/*  TODO: add error message */}
-      <p>{loginError}</p>
+      {loginError ? <Alert severity="error">{loginError}</Alert> : null}
       <Box
         sx={{
           marginTop: 8,

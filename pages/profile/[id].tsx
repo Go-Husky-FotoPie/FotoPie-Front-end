@@ -1,12 +1,12 @@
 import { Button, Container, Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axiosRequest from "../../src/utils/axiosRequest";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import NavBar from "../../src/components/NavBar";
 import Gallery from "../../src/components/profile/Gallery";
 import Collection from "../../src/components/profile/Collection";
+import { getUserInfo } from "../../src/axiosRequest/api/user";
 
 export default function ProfilePage() {
   const [lastName, setLastName] = useState("");
@@ -17,26 +17,17 @@ export default function ProfilePage() {
   const router = useRouter();
   const { id } = router.query;
 
-  // const id = params[0];
-
   useEffect(() => {
     if (!router.isReady) return;
 
-    axiosRequest(`/api/user/${id}`, "GET").then((res) => {
-      if (id !== res.data.id) return router.push("/404");
+    getUserInfo(id).then((res) => {
+      console.log(res);
+      // if (id !== res.data.id) return router.push("/404");
       setLastName(res.data.lastName);
       setFirstName(res.data.firstName);
       setAvatarPath(res.data.avatarPath);
     });
   }, [id]);
-
-  // if (params[1] === "gallery") {
-  //   return <h1>gallery</h1>;
-  // }
-
-  // if (params[2] === "collection") {
-  //   return <h1>collection</h1>;
-  // }
 
   return (
     <>
